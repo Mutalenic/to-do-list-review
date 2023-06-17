@@ -11,11 +11,16 @@ function TodoItem({ todo, removeTodo, markComplete }) {
     removeTodo(todo.id);
   };
 
+  // Check if todo object exists
+  if (!todo) {
+    return null;
+  }
+
   return (
     <div className="flex items-center mb-2">
       <input
         type="checkbox"
-        checked={todo.completed}
+        checked={todo.completed || false}
         onChange={handleCheckboxChange}
         className="mr-2"
       />
