@@ -1,8 +1,6 @@
 import UpdateStorage from './Modules/updateStorage.js';
 import { addTask } from './Modules/addRemove.js';
 
-const getTodos = () => JSON.parse(localStorage.getItem('storedStTask')) || [];
-
 const displayTasks = (taskInject) => {
   const tasks = JSON.parse(localStorage.getItem('storedStTask')) || [];
 ;
