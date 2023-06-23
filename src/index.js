@@ -5,9 +5,6 @@ import {
   displayTasks, deleteTask, add, gameChange, demolishAll,
 } from './functions.js';
 
-// variables
-// let list = JSON.parse(localStorage.getItem('storedStTask')) || [];
-
 const taskInject = document.querySelector('.task-injector');
 const taskInput = document.querySelector('.task-input');
 const addBtn = document.querySelector('#add-sign');
