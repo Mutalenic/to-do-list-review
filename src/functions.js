@@ -1,9 +1,17 @@
 import UpdateStorage from './Modules/updateStorage.js';
 import { addTask } from './Modules/addRemove.js';
 
+const createButton = (className, iconClass) => {
+  const button = document.createElement('button');
+  const icon = document.createElement('i');
+  icon.classList.add(...iconClass.split(' '));
+  button.appendChild(icon);
+  button.classList.add(...className.split(' '));
+  return button;
+};
+
 const displayTasks = (taskInject) => {
   const tasks = JSON.parse(localStorage.getItem('storedStTask')) || [];
-;
   taskInject.innerHTML = '';
   tasks.forEach((task) => {
     const li = document.createElement('li');
@@ -24,13 +32,10 @@ const displayTasks = (taskInject) => {
     span.appendChild(label);
     const div = document.createElement('div');
     li.appendChild(div);
-    const edtBtn = document.createElement('button');
+    const edtBtn = createButton('task-edit', 'far fa-edit');
+    const dltBtn = createButton('task-delete', 'far fa-trash-alt');
     div.appendChild(edtBtn);
-    const dltBtn = document.createElement('button');
     div.appendChild(dltBtn);
-    const iDlt = document.createElement('i');
-    iDlt.classList.add('task-delete', 'far', 'fa-trash-alt');
-    dltBtn.appendChild(iDlt);
   });
 };
 
@@ -44,7 +49,6 @@ class Task {
 }
 
 const add = (taskInput, taskInject) => {
-  console.log('taskInput:', taskInput.value);
   if (taskInput.value.trim() !== '') {
     const list = JSON.parse(localStorage.getItem('storedStTask')) || [];
     const newTask = new Task(taskInput.value);
@@ -57,7 +61,7 @@ const add = (taskInput, taskInject) => {
 };
 
 const deleteTask = (e, taskInject) => {
-  if (e.target.className === 'task-delete far fa-trash-alt') {
+  if (e.target.classList.contains('task-delete')) {
     let list = JSON.parse(localStorage.getItem('storedStTask')) || [];
     const eLi = e.target.parentNode.parentNode.parentNode;
     list = list.filter((item) => item.index !== Number(eLi.id));
@@ -68,6 +72,7 @@ const deleteTask = (e, taskInject) => {
     displayTasks(taskInject);
   }
 };
+
 const gameChange = (e) => {
   if (e.target.classList.contains('task-check')) {
     const list = JSON.parse(localStorage.getItem('storedStTask')) || [];
@@ -82,10 +87,9 @@ const gameChange = (e) => {
 };
 
 const demolishAll = (taskInject) => {
-  console.log('Clear!');
   const allTasks = JSON.parse(localStorage.getItem('storedStTask')) || [];
-  const UncompeledTasks = allTasks.filter((task) => task.completed === false);
-  UncompeledTasks.forEach((task, i) => { (task.index = i + 1); });
+  const UncompeledTasks = allTasks.filter((task) => !task.completed);
+  UncompeledTasks.forEach((task, i) => { task.index = i + 1; });
   UpdateStorage(UncompeledTasks);
   displayTasks(taskInject);
 };
